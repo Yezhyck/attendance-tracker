@@ -11,3 +11,5 @@ drop table if exists students cascade;
 drop table if exists study_classes cascade;
 
 drop table if exists study_classes_students cascade;
+
+drop table if exists users cascade;
