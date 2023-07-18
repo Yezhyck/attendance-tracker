@@ -19,31 +19,31 @@ public class AbsenceReasonController {
     }
 
     @PostMapping
-    public @ResponseBody ResponseEntity<AbsenceReasonDto> createAbsenceReason(@RequestBody AbsenceReasonDto absenceReasonDto) {
+    public ResponseEntity<AbsenceReasonDto> createAbsenceReason(@RequestBody AbsenceReasonDto absenceReasonDto) {
         return ResponseEntity.ok(absenceReasonService.addAbsenceReason(absenceReasonDto));
     }
 
     @GetMapping("/{id}")
-    public @ResponseBody ResponseEntity<AbsenceReasonDto> readAbsenceReasonById(@PathVariable("id") Long id) {
+    public ResponseEntity<AbsenceReasonDto> readAbsenceReasonById(@PathVariable("id") Long id) {
         return absenceReasonService.getAbsenceReasonById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public @ResponseBody ResponseEntity<List<AbsenceReasonDto>> readAllAbsenceReasons() {
+    public ResponseEntity<List<AbsenceReasonDto>> readAllAbsenceReasons() {
         return ResponseEntity.ok(absenceReasonService.getAllAbsenceReasons());
     }
 
     @PutMapping("/{id}")
-    public @ResponseBody ResponseEntity<AbsenceReasonDto> updateAbsenceReasonById(@PathVariable("id") Long id, @RequestBody AbsenceReasonDto absenceReasonDto) {
+    public ResponseEntity<AbsenceReasonDto> updateAbsenceReasonById(@PathVariable("id") Long id, @RequestBody AbsenceReasonDto absenceReasonDto) {
         return absenceReasonService.modifyAbsenceReasonById(id, absenceReasonDto)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public @ResponseBody ResponseEntity<Void> deleteAbsenceReasonById(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteAbsenceReasonById(@PathVariable("id") Long id) {
         if (!absenceReasonService.checkIfAbsenceReasonExistsById(id)) {
             return ResponseEntity.notFound().build();
         }

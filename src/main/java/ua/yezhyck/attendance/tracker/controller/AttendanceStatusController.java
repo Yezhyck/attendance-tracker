@@ -19,31 +19,31 @@ public class AttendanceStatusController {
     }
 
     @PostMapping
-    public @ResponseBody ResponseEntity<AttendanceStatusDto> createAttendanceStatus(@RequestBody AttendanceStatusDto attendanceStatusDto) {
+    public ResponseEntity<AttendanceStatusDto> createAttendanceStatus(@RequestBody AttendanceStatusDto attendanceStatusDto) {
         return ResponseEntity.ok(attendanceStatusService.addAttendanceStatus(attendanceStatusDto));
     }
 
     @GetMapping("/{id}")
-    public @ResponseBody ResponseEntity<AttendanceStatusDto> readAttendanceStatusById(@PathVariable("id") Long id) {
+    public ResponseEntity<AttendanceStatusDto> readAttendanceStatusById(@PathVariable("id") Long id) {
         return attendanceStatusService.getAttendanceStatusById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public @ResponseBody ResponseEntity<List<AttendanceStatusDto>> readAllAttendanceStatuses() {
+    public ResponseEntity<List<AttendanceStatusDto>> readAllAttendanceStatuses() {
         return ResponseEntity.ok(attendanceStatusService.getAllAttendanceStatuses());
     }
 
     @PutMapping("/{id}")
-    public @ResponseBody ResponseEntity<AttendanceStatusDto> updateAttendanceStatusById(@PathVariable("id") Long id, @RequestBody AttendanceStatusDto attendanceStatusDto) {
+    public ResponseEntity<AttendanceStatusDto> updateAttendanceStatusById(@PathVariable("id") Long id, @RequestBody AttendanceStatusDto attendanceStatusDto) {
         return attendanceStatusService.modifyAttendanceStatusById(id, attendanceStatusDto)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public @ResponseBody ResponseEntity<Void> deleteAttendanceStatusById(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteAttendanceStatusById(@PathVariable("id") Long id) {
         if (!attendanceStatusService.checkIfAttendanceStatusExistsById(id)) {
             return ResponseEntity.notFound().build();
         }
