@@ -9,3 +9,5 @@ drop sequence if exists lessons_students_seq;
 drop sequence if exists students_seq;
 
 drop sequence if exists study_classes_seq;
+
+drop sequence if exists users_seq;

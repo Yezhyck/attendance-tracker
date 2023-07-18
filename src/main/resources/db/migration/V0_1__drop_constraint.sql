@@ -18,3 +18,6 @@ alter table if exists study_classes_students
 
 alter table if exists study_classes_students
     drop constraint if exists id_study_class_fk;
+
+alter table if exists study_classes_students
+    drop constraint if exists id_user_fk;

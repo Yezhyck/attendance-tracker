@@ -9,3 +9,5 @@ create sequence lessons_students_seq start with 1 increment by 1;
 create sequence students_seq start with 1 increment by 1;
 
 create sequence study_classes_seq start with 1 increment by 1;
+
+create sequence users_seq start with 1 increment by 1;

@@ -42,8 +42,9 @@ create table students
 
 create table study_classes
 (
-    id   bigint default nextval('study_classes_seq') not null,
-    name varchar(255)                                not null,
+    id      bigint default nextval('study_classes_seq') not null,
+    id_user bigint                                      not null,
+    name    varchar(255)                                not null,
     primary key (id)
 );
 
@@ -52,4 +53,11 @@ create table study_classes_students
     id_student     bigint not null,
     id_study_class bigint not null,
     primary key (id_student, id_study_class)
+);
+
+create table users
+(
+    id          bigint not null,
+    telegram_id bigint unique,
+    primary key (id)
 );
