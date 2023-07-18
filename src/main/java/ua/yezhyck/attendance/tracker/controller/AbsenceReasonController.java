@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.yezhyck.attendance.tracker.dto.AbsenceReasonDto;
-import ua.yezhyck.attendance.tracker.service.AbsenceReasonServiceImpl;
+import ua.yezhyck.attendance.tracker.service.impl.AbsenceReasonServiceImpl;
 
 import java.util.List;
 

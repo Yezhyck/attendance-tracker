@@ -1,4 +1,4 @@
-package ua.yezhyck.attendance.tracker.service;
+package ua.yezhyck.attendance.tracker.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +8,7 @@ import ua.yezhyck.attendance.tracker.mapper.StudyClassMapper;
 import ua.yezhyck.attendance.tracker.repository.LessonRepository;
 import ua.yezhyck.attendance.tracker.repository.StudentRepository;
 import ua.yezhyck.attendance.tracker.repository.StudyClassRepository;
+import ua.yezhyck.attendance.tracker.service.StudyClassService;
 
 import java.util.List;
 import java.util.Optional;

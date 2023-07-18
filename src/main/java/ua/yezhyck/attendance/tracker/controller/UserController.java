@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.yezhyck.attendance.tracker.dto.UserDto;
 import ua.yezhyck.attendance.tracker.dto.UserEditableDto;
-import ua.yezhyck.attendance.tracker.service.UserServiceImpl;
+import ua.yezhyck.attendance.tracker.service.impl.UserServiceImpl;
 
 import java.util.List;
 
