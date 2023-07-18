@@ -18,3 +18,6 @@ alter table if exists study_classes_students
 
 alter table if exists study_classes_students
     add constraint id_study_class_fk foreign key (id_study_class) references study_classes;
+
+alter table if exists study_classes
+    add constraint id_user_fk foreign key (id_user) references users;
