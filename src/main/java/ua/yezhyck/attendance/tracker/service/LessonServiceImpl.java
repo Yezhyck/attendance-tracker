@@ -58,9 +58,8 @@ public class LessonServiceImpl implements LessonService {
                     studyClassRepository.findById(lessonEditableDto.getStudyClassId())
                             .ifPresent(lesson::setStudyClass);
 
-                    return Optional.of(lessonMapper.mapToLessonDto(lessonRepository.save(lesson)));
-                })
-                .orElse(Optional.empty());
+                    return lessonMapper.mapToLessonDto(lessonRepository.save(lesson));
+                });
     }
 
     @Override
@@ -70,9 +69,8 @@ public class LessonServiceImpl implements LessonService {
                     lessonStudentRepository.findById(lessonStudentId)
                             .ifPresent(lessonStudent -> lesson.getLessonStudents().add(lessonStudent));
 
-                    return Optional.of(lessonMapper.mapToLessonDto(lessonRepository.save(lesson)));
-                })
-                .orElse(Optional.empty());
+                    return lessonMapper.mapToLessonDto(lessonRepository.save(lesson));
+                });
     }
 
     @Override
@@ -82,9 +80,8 @@ public class LessonServiceImpl implements LessonService {
                     lessonStudentRepository.findById(lessonStudentId)
                             .ifPresent(lessonStudent -> lesson.getLessonStudents().remove(lessonStudent));
 
-                    return Optional.of(lessonMapper.mapToLessonDto(lessonRepository.save(lesson)));
-                })
-                .orElse(Optional.empty());
+                    return lessonMapper.mapToLessonDto(lessonRepository.save(lesson));
+                });
     }
 
     @Override

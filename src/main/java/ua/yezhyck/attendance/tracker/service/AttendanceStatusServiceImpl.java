@@ -42,9 +42,8 @@ public class AttendanceStatusServiceImpl implements AttendanceStatusService {
                     attendanceStatus.setName(attendanceStatusDto.getName());
                     attendanceStatus.setType(attendanceStatusDto.getType());
 
-                    return Optional.of(attendanceStatusMapper.mapToAttendanceStatusDto(attendanceStatusRepository.save(attendanceStatus)));
-                })
-                .orElse(Optional.empty());
+                    return attendanceStatusMapper.mapToAttendanceStatusDto(attendanceStatusRepository.save(attendanceStatus));
+                });
     }
 
     @Override

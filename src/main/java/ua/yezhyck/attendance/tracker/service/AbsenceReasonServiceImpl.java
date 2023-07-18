@@ -42,9 +42,8 @@ public class AbsenceReasonServiceImpl implements AbsenceReasonService {
                     absenceReason.setName(absenceReasonDto.getName());
                     absenceReason.setType(absenceReasonDto.getType());
 
-                    return Optional.of(absenceReasonMapper.mapToAbsenceReasonDto(absenceReasonRepository.save(absenceReason)));
-                })
-                .orElse(Optional.empty());
+                    return absenceReasonMapper.mapToAbsenceReasonDto(absenceReasonRepository.save(absenceReason));
+                });
     }
 
     @Override

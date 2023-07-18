@@ -42,9 +42,8 @@ public class StudentServiceImpl implements StudentService {
                     student.setFirstName(studentDto.getFirstName());
                     student.setLastName(studentDto.getLastName());
 
-                    return Optional.of(studentMapper.mapToStudentDto(studentRepository.save(student)));
-                })
-                .orElse(Optional.empty());
+                    return studentMapper.mapToStudentDto(studentRepository.save(student));
+                });
     }
 
     @Override

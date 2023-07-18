@@ -50,9 +50,8 @@ public class StudyClassServiceImpl implements StudyClassService {
                 .map(studyClass -> {
                     studyClass.setName(studyClassEditableDto.getName());
 
-                    return Optional.of(studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass)));
-                })
-                .orElse(Optional.empty());
+                    return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
+                });
     }
 
     @Override
@@ -62,9 +61,8 @@ public class StudyClassServiceImpl implements StudyClassService {
                     studentRepository.findById(studentId)
                             .ifPresent(student -> studyClass.getStudents().add(student));
 
-                    return Optional.of(studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass)));
-                })
-                .orElse(Optional.empty());
+                    return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
+                });
     }
 
     @Override
@@ -74,9 +72,8 @@ public class StudyClassServiceImpl implements StudyClassService {
                     studentRepository.findById(studentId)
                             .ifPresent(student -> studyClass.getStudents().remove(student));
 
-                    return Optional.of(studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass)));
-                })
-                .orElse(Optional.empty());
+                    return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
+                });
     }
 
     @Override
@@ -86,9 +83,8 @@ public class StudyClassServiceImpl implements StudyClassService {
                     lessonRepository.findById(lessonId)
                             .ifPresent(lesson -> studyClass.getLessons().add(lesson));
 
-                    return Optional.of(studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass)));
-                })
-                .orElse(Optional.empty());
+                    return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
+                });
     }
 
     @Override
@@ -98,9 +94,8 @@ public class StudyClassServiceImpl implements StudyClassService {
                     lessonRepository.findById(lessonId)
                             .ifPresent(lesson -> studyClass.getLessons().remove(lesson));
 
-                    return Optional.of(studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass)));
-                })
-                .orElse(Optional.empty());
+                    return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
+                });
     }
 
     @Override
