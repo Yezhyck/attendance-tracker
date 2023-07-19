@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import ua.yezhyck.attendance.tracker.dto.StudyClassDto;
-import ua.yezhyck.attendance.tracker.dto.StudyClassEditableDto;
+import ua.yezhyck.attendance.tracker.dto.editable.StudyClassEditableDto;
 import ua.yezhyck.attendance.tracker.entity.StudyClass;
 
 import java.util.List;

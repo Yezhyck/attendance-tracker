@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.yezhyck.attendance.tracker.dto.UserDto;
-import ua.yezhyck.attendance.tracker.dto.UserEditableDto;
+import ua.yezhyck.attendance.tracker.dto.editable.UserEditableDto;
 import ua.yezhyck.attendance.tracker.service.impl.UserServiceImpl;
 
 import java.util.List;

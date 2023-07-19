@@ -3,7 +3,7 @@ package ua.yezhyck.attendance.tracker.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.yezhyck.attendance.tracker.dto.LessonStudentDto;
-import ua.yezhyck.attendance.tracker.dto.LessonStudentEditableDto;
+import ua.yezhyck.attendance.tracker.dto.editable.LessonStudentEditableDto;
 import ua.yezhyck.attendance.tracker.entity.LessonStudent;
 import ua.yezhyck.attendance.tracker.mapper.LessonStudentMapper;
 import ua.yezhyck.attendance.tracker.repository.*;

@@ -1,4 +1,4 @@
-package ua.yezhyck.attendance.tracker.dto;
+package ua.yezhyck.attendance.tracker.dto.editable;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,5 +8,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class StudyClassEditableDto {
+    private Long userId;
     private String name;
 }

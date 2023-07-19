@@ -1,4 +1,4 @@
-package ua.yezhyck.attendance.tracker.dto;
+package ua.yezhyck.attendance.tracker.dto.editable;
 
 import lombok.Getter;
 import lombok.Setter;

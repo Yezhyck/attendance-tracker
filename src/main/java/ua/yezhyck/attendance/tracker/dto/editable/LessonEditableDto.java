@@ -1,4 +1,4 @@
-package ua.yezhyck.attendance.tracker.dto;
+package ua.yezhyck.attendance.tracker.dto.editable;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +10,6 @@ import java.time.LocalDate;
 @Setter
 @ToString
 public class LessonEditableDto {
-    private LocalDate date;
     private Long studyClassId;
+    private LocalDate date;
 }

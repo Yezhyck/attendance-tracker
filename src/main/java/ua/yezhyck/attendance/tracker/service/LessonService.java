@@ -1,7 +1,7 @@
 package ua.yezhyck.attendance.tracker.service;
 
 import ua.yezhyck.attendance.tracker.dto.LessonDto;
-import ua.yezhyck.attendance.tracker.dto.LessonEditableDto;
+import ua.yezhyck.attendance.tracker.dto.editable.LessonEditableDto;
 
 import java.util.List;
 import java.util.Optional;
