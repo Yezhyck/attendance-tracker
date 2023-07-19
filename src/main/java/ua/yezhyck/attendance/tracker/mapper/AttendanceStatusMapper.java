@@ -1,21 +1,23 @@
 package ua.yezhyck.attendance.tracker.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapping;
 import ua.yezhyck.attendance.tracker.dto.AttendanceStatusDto;
+import ua.yezhyck.attendance.tracker.dto.editable.AttendanceStatusEditableDto;
 import ua.yezhyck.attendance.tracker.entity.AttendanceStatus;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface AttendanceStatusMapper {
-    AttendanceStatusMapper INSTANCE = Mappers.getMapper(AttendanceStatusMapper.class);
 
     AttendanceStatusDto mapToAttendanceStatusDto(AttendanceStatus attendanceStatus);
 
     AttendanceStatus mapToAttendanceStatus(AttendanceStatusDto attendanceStatusDto);
 
-    List<AttendanceStatusDto> mapAllToAttendanceStatusDtoList(List<AttendanceStatus> attendanceStatuses);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "lessonStudents", ignore = true)
+    AttendanceStatus mapToAttendanceStatus(AttendanceStatusEditableDto attendanceStatusEditableDto);
 
-    List<AttendanceStatus> mapAllToAttendanceStatuses(List<AttendanceStatusDto> dtoList);
+    List<AttendanceStatusDto> mapAllToAttendanceStatusDtoList(List<AttendanceStatus> attendanceStatuses);
 }
