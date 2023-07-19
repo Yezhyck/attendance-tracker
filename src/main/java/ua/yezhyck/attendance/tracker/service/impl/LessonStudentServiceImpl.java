@@ -37,9 +37,7 @@ public class LessonStudentServiceImpl implements LessonStudentService {
 
     @Override
     public LessonStudentDto addLessonStudent(LessonStudentEditableDto lessonStudentEditableDto) {
-        LessonStudent lessonStudent = lessonStudentMapper.mapToLessonStudent(lessonStudentEditableDto);
-
-        return getLessonStudentDto(lessonStudentEditableDto, lessonStudent);
+        return lessonStudentMapper.mapToLessonStudentDto(lessonStudentRepository.save(configureLessonStudent(lessonStudentEditableDto, new LessonStudent())));
     }
 
     @Override
@@ -55,7 +53,7 @@ public class LessonStudentServiceImpl implements LessonStudentService {
     @Override
     public Optional<LessonStudentDto> modifyLessonStudentById(Long id, LessonStudentEditableDto lessonStudentEditableDto) {
         return lessonStudentRepository.findById(id)
-                .map(lessonStudent -> getLessonStudentDto(lessonStudentEditableDto, lessonStudent));
+                .map(lessonStudent -> lessonStudentMapper.mapToLessonStudentDto(lessonStudentRepository.save(configureLessonStudent(lessonStudentEditableDto, lessonStudent))));
     }
 
     @Override
@@ -68,7 +66,7 @@ public class LessonStudentServiceImpl implements LessonStudentService {
         return lessonStudentRepository.existsById(id);
     }
 
-    private LessonStudentDto getLessonStudentDto(LessonStudentEditableDto lessonStudentEditableDto, LessonStudent lessonStudent) {
+    private LessonStudent configureLessonStudent(LessonStudentEditableDto lessonStudentEditableDto, LessonStudent lessonStudent) {
         lessonRepository.findById(lessonStudentEditableDto.getLessonId())
                 .ifPresent(lessonStudent::setLesson);
         studentRepository.findById(lessonStudentEditableDto.getStudentId())
@@ -78,6 +76,6 @@ public class LessonStudentServiceImpl implements LessonStudentService {
         absenceReasonRepository.findById(lessonStudentEditableDto.getAbsenceReasonId())
                 .ifPresent(lessonStudent::setAbsenceReason);
 
-        return lessonStudentMapper.mapToLessonStudentDto(lessonStudentRepository.save(lessonStudent));
+        return lessonStudent;
     }
 }

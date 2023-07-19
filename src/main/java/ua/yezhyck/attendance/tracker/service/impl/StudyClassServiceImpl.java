@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.yezhyck.attendance.tracker.dto.StudyClassDto;
 import ua.yezhyck.attendance.tracker.dto.editable.StudyClassEditableDto;
+import ua.yezhyck.attendance.tracker.entity.StudyClass;
 import ua.yezhyck.attendance.tracker.mapper.StudyClassMapper;
 import ua.yezhyck.attendance.tracker.repository.LessonRepository;
 import ua.yezhyck.attendance.tracker.repository.StudentRepository;
 import ua.yezhyck.attendance.tracker.repository.StudyClassRepository;
+import ua.yezhyck.attendance.tracker.repository.UserRepository;
 import ua.yezhyck.attendance.tracker.service.StudyClassService;
 
 import java.util.List;
@@ -19,20 +21,28 @@ public class StudyClassServiceImpl implements StudyClassService {
     private final StudyClassRepository studyClassRepository;
     private final StudentRepository studentRepository;
     private final LessonRepository lessonRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public StudyClassServiceImpl(StudyClassMapper studyClassMapper, StudyClassRepository studyClassRepository,
                                  StudentRepository studentRepository,
-                                 LessonRepository lessonRepository) {
+                                 LessonRepository lessonRepository,
+                                 UserRepository userRepository) {
         this.studyClassMapper = studyClassMapper;
         this.studyClassRepository = studyClassRepository;
         this.studentRepository = studentRepository;
         this.lessonRepository = lessonRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public StudyClassDto addStudyClass(StudyClassEditableDto studyClassEditableDto) {
-        return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClassMapper.mapToStudyClass(studyClassEditableDto)));
+        StudyClass studyClass = studyClassMapper.mapToStudyClass(studyClassEditableDto);
+
+        userRepository.findById(studyClassEditableDto.getUserId())
+                .ifPresent(studyClass::setUser);
+
+        return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
     }
 
     @Override
@@ -50,6 +60,9 @@ public class StudyClassServiceImpl implements StudyClassService {
         return studyClassRepository.findById(id)
                 .map(studyClass -> {
                     studyClass.setName(studyClassEditableDto.getName());
+
+                    userRepository.findById(studyClassEditableDto.getUserId())
+                            .ifPresent(studyClass::setUser);
 
                     return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
                 });
