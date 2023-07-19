@@ -24,13 +24,13 @@ public class StudyClass {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "study_classes_id_sequence")
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
     @ToString.Exclude
     private User user;
+
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
