@@ -57,20 +57,6 @@ public class StudyClassController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/add-lesson/{id}")
-    public ResponseEntity<StudyClassDto> addLessonToStudyClassById(@PathVariable("id") Long id, @RequestParam("lessonId") Long lessonId) {
-        return studyClassService.addLessonToStudyClassById(id, lessonId)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PutMapping("/remove-lesson/{id}")
-    public ResponseEntity<StudyClassDto> removeLessonFromStudyClassById(@PathVariable("id") Long id, @RequestParam("lessonId") Long lessonId) {
-        return studyClassService.removeLessonFromStudyClassById(id, lessonId)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudyClassById(@PathVariable("id") Long id) {
         if (!studyClassService.checkIfStudyClassExistsById(id)) {

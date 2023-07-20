@@ -43,20 +43,6 @@ public class LessonController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/add-student/{id}")
-    public ResponseEntity<LessonDto> addLessonStudentToLessonById(@PathVariable("id") Long id, @RequestParam("lessonStudentId") Long lessonStudentId) {
-        return lessonService.addLessonStudentToLessonById(id, lessonStudentId)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PutMapping("/remove-student/{id}")
-    public ResponseEntity<LessonDto> removeLessonStudentFromLessonClassById(@PathVariable("id") Long id, @RequestParam("lessonStudentId") Long lessonStudentId) {
-        return lessonService.removeLessonStudentFromLessonById(id, lessonStudentId)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLessonById(@PathVariable("id") Long id) {
         if (!lessonService.checkIfLessonExistsById(id)) {

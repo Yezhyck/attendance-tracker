@@ -6,7 +6,6 @@ import ua.yezhyck.attendance.tracker.dto.StudyClassDto;
 import ua.yezhyck.attendance.tracker.dto.editable.StudyClassEditableDto;
 import ua.yezhyck.attendance.tracker.entity.StudyClass;
 import ua.yezhyck.attendance.tracker.mapper.StudyClassMapper;
-import ua.yezhyck.attendance.tracker.repository.LessonRepository;
 import ua.yezhyck.attendance.tracker.repository.StudentRepository;
 import ua.yezhyck.attendance.tracker.repository.StudyClassRepository;
 import ua.yezhyck.attendance.tracker.repository.UserRepository;
@@ -20,18 +19,15 @@ public class StudyClassServiceImpl implements StudyClassService {
     private final StudyClassMapper studyClassMapper;
     private final StudyClassRepository studyClassRepository;
     private final StudentRepository studentRepository;
-    private final LessonRepository lessonRepository;
     private final UserRepository userRepository;
 
     @Autowired
     public StudyClassServiceImpl(StudyClassMapper studyClassMapper, StudyClassRepository studyClassRepository,
                                  StudentRepository studentRepository,
-                                 LessonRepository lessonRepository,
                                  UserRepository userRepository) {
         this.studyClassMapper = studyClassMapper;
         this.studyClassRepository = studyClassRepository;
         this.studentRepository = studentRepository;
-        this.lessonRepository = lessonRepository;
         this.userRepository = userRepository;
     }
 
@@ -85,28 +81,6 @@ public class StudyClassServiceImpl implements StudyClassService {
                 .map(studyClass -> {
                     studentRepository.findById(studentId)
                             .ifPresent(student -> studyClass.getStudents().remove(student));
-
-                    return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
-                });
-    }
-
-    @Override
-    public Optional<StudyClassDto> addLessonToStudyClassById(Long id, Long lessonId) {
-        return studyClassRepository.findById(id)
-                .map(studyClass -> {
-                    lessonRepository.findById(lessonId)
-                            .ifPresent(lesson -> studyClass.getLessons().add(lesson));
-
-                    return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
-                });
-    }
-
-    @Override
-    public Optional<StudyClassDto> removeLessonFromStudyClassById(Long id, Long lessonId) {
-        return studyClassRepository.findById(id)
-                .map(studyClass -> {
-                    lessonRepository.findById(lessonId)
-                            .ifPresent(lesson -> studyClass.getLessons().remove(lesson));
 
                     return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
                 });

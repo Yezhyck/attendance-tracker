@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ua.yezhyck.attendance.tracker.dto.UserDto;
 import ua.yezhyck.attendance.tracker.dto.editable.UserEditableDto;
 import ua.yezhyck.attendance.tracker.mapper.UserMapper;
-import ua.yezhyck.attendance.tracker.repository.StudyClassRepository;
 import ua.yezhyck.attendance.tracker.repository.UserRepository;
 import ua.yezhyck.attendance.tracker.service.UserService;
 
@@ -16,14 +15,11 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final StudyClassRepository studyClassRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper,
-                           StudyClassRepository studyClassRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
-        this.studyClassRepository = studyClassRepository;
     }
 
     @Override
@@ -46,28 +42,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id)
                 .map(user -> {
                     user.setTelegramId(userEditableDto.getTelegramId());
-
-                    return userMapper.mapToUserDto(userRepository.save(user));
-                });
-    }
-
-    @Override
-    public Optional<UserDto> addStudyClassToUserById(Long id, Long studyClassId) {
-        return userRepository.findById(id)
-                .map(user -> {
-                    studyClassRepository.findById(studyClassId)
-                            .ifPresent(studyClass -> user.getStudyClasses().add(studyClass));
-
-                    return userMapper.mapToUserDto(userRepository.save(user));
-                });
-    }
-
-    @Override
-    public Optional<UserDto> removeStudyClassFromUserById(Long id, Long studyClassId) {
-        return userRepository.findById(id)
-                .map(user -> {
-                    studyClassRepository.findById(studyClassId)
-                            .ifPresent(studyClass -> user.getStudyClasses().remove(studyClass));
 
                     return userMapper.mapToUserDto(userRepository.save(user));
                 });

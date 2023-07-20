@@ -16,10 +16,6 @@ public interface LessonService {
 
     Optional<LessonDto> modifyLessonById(Long id, LessonEditableDto lessonEditableDto);
 
-    Optional<LessonDto> addLessonStudentToLessonById(Long id, Long lessonStudentId);
-
-    Optional<LessonDto> removeLessonStudentFromLessonById(Long id, Long lessonStudentId);
-
     void removeLessonById(Long id);
 
     boolean checkIfLessonExistsById(Long id);

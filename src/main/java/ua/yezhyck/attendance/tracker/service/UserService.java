@@ -15,10 +15,6 @@ public interface UserService {
 
     Optional<UserDto> modifyUserById(Long id, UserEditableDto userEditableDto);
 
-    Optional<UserDto> addStudyClassToUserById(Long id, Long studyClassId);
-
-    Optional<UserDto> removeStudyClassFromUserById(Long id, Long studyClassId);
-
     void removeUserById(Long id);
 
     boolean checkIfUserExistsById(Long id);

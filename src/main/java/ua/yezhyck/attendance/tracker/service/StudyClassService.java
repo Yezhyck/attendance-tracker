@@ -20,10 +20,6 @@ public interface StudyClassService {
 
     Optional<StudyClassDto> removeStudentFromStudyClassById(Long id, Long studentId);
 
-    Optional<StudyClassDto> addLessonToStudyClassById(Long id, Long lessonId);
-
-    Optional<StudyClassDto> removeLessonFromStudyClassById(Long id, Long lessonId);
-
     void removeStudyClassById(Long id);
 
     boolean checkIfStudyClassExistsById(Long id);

@@ -43,20 +43,6 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/add-study-class/{id}")
-    public ResponseEntity<UserDto> addStudyClassToUserById(@PathVariable("id") Long id, @RequestParam("studyClassId") Long studyClassId) {
-        return userService.addStudyClassToUserById(id, studyClassId)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PutMapping("/remove-study-class/{id}")
-    public ResponseEntity<UserDto> removeStudyClassFromUserById(@PathVariable("id") Long id, @RequestParam("studyClassId") Long studyClassId) {
-        return userService.removeStudyClassFromUserById(id, studyClassId)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable("id") Long id) {
         if (!userService.checkIfUserExistsById(id)) {

@@ -7,7 +7,6 @@ import ua.yezhyck.attendance.tracker.dto.editable.LessonEditableDto;
 import ua.yezhyck.attendance.tracker.entity.Lesson;
 import ua.yezhyck.attendance.tracker.mapper.LessonMapper;
 import ua.yezhyck.attendance.tracker.repository.LessonRepository;
-import ua.yezhyck.attendance.tracker.repository.LessonStudentRepository;
 import ua.yezhyck.attendance.tracker.repository.StudyClassRepository;
 import ua.yezhyck.attendance.tracker.service.LessonService;
 
@@ -19,15 +18,12 @@ public class LessonServiceImpl implements LessonService {
     private final LessonMapper lessonMapper;
     private final LessonRepository lessonRepository;
     private final StudyClassRepository studyClassRepository;
-    private final LessonStudentRepository lessonStudentRepository;
 
     @Autowired
-    public LessonServiceImpl(LessonMapper lessonMapper, LessonRepository lessonRepository, StudyClassRepository studyClassRepository,
-                             LessonStudentRepository lessonStudentRepository) {
+    public LessonServiceImpl(LessonMapper lessonMapper, LessonRepository lessonRepository, StudyClassRepository studyClassRepository) {
         this.lessonMapper = lessonMapper;
         this.lessonRepository = lessonRepository;
         this.studyClassRepository = studyClassRepository;
-        this.lessonStudentRepository = lessonStudentRepository;
     }
 
     @Override
@@ -58,28 +54,6 @@ public class LessonServiceImpl implements LessonService {
 
                     studyClassRepository.findById(lessonEditableDto.getStudyClassId())
                             .ifPresent(lesson::setStudyClass);
-
-                    return lessonMapper.mapToLessonDto(lessonRepository.save(lesson));
-                });
-    }
-
-    @Override
-    public Optional<LessonDto> addLessonStudentToLessonById(Long id, Long lessonStudentId) {
-        return lessonRepository.findById(id)
-                .map(lesson -> {
-                    lessonStudentRepository.findById(lessonStudentId)
-                            .ifPresent(lessonStudent -> lesson.getLessonStudents().add(lessonStudent));
-
-                    return lessonMapper.mapToLessonDto(lessonRepository.save(lesson));
-                });
-    }
-
-    @Override
-    public Optional<LessonDto> removeLessonStudentFromLessonById(Long id, Long lessonStudentId) {
-        return lessonRepository.findById(id)
-                .map(lesson -> {
-                    lessonStudentRepository.findById(lessonStudentId)
-                            .ifPresent(lessonStudent -> lesson.getLessonStudents().remove(lessonStudent));
 
                     return lessonMapper.mapToLessonDto(lessonRepository.save(lesson));
                 });
