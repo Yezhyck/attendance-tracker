@@ -30,7 +30,7 @@ public class Student {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @ManyToMany(mappedBy = "students", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "students")
     @ToString.Exclude
     private Set<StudyClass> studyClasses = new LinkedHashSet<>();
 

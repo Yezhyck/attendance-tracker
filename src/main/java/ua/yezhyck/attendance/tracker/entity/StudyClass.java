@@ -32,7 +32,7 @@ public class StudyClass {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "study_classes_students",
             joinColumns = @JoinColumn(name = "id_study_class"),
@@ -41,7 +41,7 @@ public class StudyClass {
     @ToString.Exclude
     private Set<Student> students = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "studyClass", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "studyClass", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private Set<Lesson> lessons = new LinkedHashSet<>();
 
