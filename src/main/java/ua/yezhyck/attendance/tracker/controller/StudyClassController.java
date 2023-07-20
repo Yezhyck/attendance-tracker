@@ -66,7 +66,7 @@ public class StudyClassController {
 
     @PutMapping("/remove-lesson/{id}")
     public ResponseEntity<StudyClassDto> removeLessonFromStudyClassById(@PathVariable("id") Long id, @RequestParam("lessonId") Long lessonId) {
-        return studyClassService.removeLessonToStudyClassById(id, lessonId)
+        return studyClassService.removeLessonFromStudyClassById(id, lessonId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

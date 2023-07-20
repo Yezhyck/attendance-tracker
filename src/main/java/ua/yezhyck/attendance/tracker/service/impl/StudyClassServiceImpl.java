@@ -102,7 +102,7 @@ public class StudyClassServiceImpl implements StudyClassService {
     }
 
     @Override
-    public Optional<StudyClassDto> removeLessonToStudyClassById(Long id, Long lessonId) {
+    public Optional<StudyClassDto> removeLessonFromStudyClassById(Long id, Long lessonId) {
         return studyClassRepository.findById(id)
                 .map(studyClass -> {
                     lessonRepository.findById(lessonId)

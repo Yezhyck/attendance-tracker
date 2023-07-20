@@ -22,7 +22,7 @@ public interface StudyClassService {
 
     Optional<StudyClassDto> addLessonToStudyClassById(Long id, Long lessonId);
 
-    Optional<StudyClassDto> removeLessonToStudyClassById(Long id, Long lessonId);
+    Optional<StudyClassDto> removeLessonFromStudyClassById(Long id, Long lessonId);
 
     void removeStudyClassById(Long id);
 
