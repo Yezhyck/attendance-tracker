@@ -3,6 +3,7 @@ package ua.yezhyck.attendance.tracker.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.yezhyck.attendance.tracker.dto.AbsenceReasonDto;
+import ua.yezhyck.attendance.tracker.exception.NoSuchAbsenceReasonException;
 import ua.yezhyck.attendance.tracker.mapper.AbsenceReasonMapper;
 import ua.yezhyck.attendance.tracker.repository.AbsenceReasonRepository;
 import ua.yezhyck.attendance.tracker.service.AbsenceReasonService;
@@ -37,14 +38,15 @@ public class AbsenceReasonServiceImpl implements AbsenceReasonService {
     }
 
     @Override
-    public Optional<AbsenceReasonDto> modifyAbsenceReasonById(Long id, AbsenceReasonDto absenceReasonDto) {
+    public AbsenceReasonDto modifyAbsenceReasonById(Long id, AbsenceReasonDto absenceReasonDto) throws NoSuchAbsenceReasonException {
         return absenceReasonRepository.findById(id)
                 .map(absenceReason -> {
                     absenceReason.setName(absenceReasonDto.getName());
                     absenceReason.setType(absenceReasonDto.getType());
 
                     return absenceReasonMapper.mapToAbsenceReasonDto(absenceReasonRepository.save(absenceReason));
-                });
+                })
+                .orElseThrow(() -> new NoSuchAbsenceReasonException(String.format("Absence reason does not exist with id=%d", id)));
     }
 
     @Override

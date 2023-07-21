@@ -4,7 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.yezhyck.attendance.tracker.dto.StudyClassDto;
 import ua.yezhyck.attendance.tracker.dto.editable.StudyClassEditableDto;
+import ua.yezhyck.attendance.tracker.entity.Student;
 import ua.yezhyck.attendance.tracker.entity.StudyClass;
+import ua.yezhyck.attendance.tracker.entity.User;
+import ua.yezhyck.attendance.tracker.exception.NoSuchStudentException;
+import ua.yezhyck.attendance.tracker.exception.NoSuchStudyClassException;
+import ua.yezhyck.attendance.tracker.exception.NoSuchUserException;
 import ua.yezhyck.attendance.tracker.mapper.StudyClassMapper;
 import ua.yezhyck.attendance.tracker.repository.StudentRepository;
 import ua.yezhyck.attendance.tracker.repository.StudyClassRepository;
@@ -22,9 +27,7 @@ public class StudyClassServiceImpl implements StudyClassService {
     private final UserRepository userRepository;
 
     @Autowired
-    public StudyClassServiceImpl(StudyClassMapper studyClassMapper, StudyClassRepository studyClassRepository,
-                                 StudentRepository studentRepository,
-                                 UserRepository userRepository) {
+    public StudyClassServiceImpl(StudyClassMapper studyClassMapper, StudyClassRepository studyClassRepository, StudentRepository studentRepository, UserRepository userRepository) {
         this.studyClassMapper = studyClassMapper;
         this.studyClassRepository = studyClassRepository;
         this.studentRepository = studentRepository;
@@ -32,11 +35,13 @@ public class StudyClassServiceImpl implements StudyClassService {
     }
 
     @Override
-    public StudyClassDto addStudyClass(StudyClassEditableDto studyClassEditableDto) {
+    public StudyClassDto addStudyClass(StudyClassEditableDto studyClassEditableDto) throws NoSuchUserException {
         StudyClass studyClass = studyClassMapper.mapToStudyClass(studyClassEditableDto);
 
-        userRepository.findById(studyClassEditableDto.getUserId())
-                .ifPresent(studyClass::setUser);
+        User user = userRepository.findById(studyClassEditableDto.getUserId())
+                .orElseThrow(() -> new NoSuchUserException(String.format("User does not exist with id=%d", studyClassEditableDto.getUserId())));
+
+        studyClass.setUser(user);
 
         return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
     }
@@ -52,38 +57,40 @@ public class StudyClassServiceImpl implements StudyClassService {
     }
 
     @Override
-    public Optional<StudyClassDto> modifyStudyClassById(Long id, StudyClassEditableDto studyClassEditableDto) {
-        return studyClassRepository.findById(id)
-                .map(studyClass -> {
-                    studyClass.setName(studyClassEditableDto.getName());
+    public StudyClassDto modifyStudyClassById(Long id, StudyClassEditableDto studyClassEditableDto) throws NoSuchStudyClassException, NoSuchUserException {
+        StudyClass studyClass = studyClassRepository.findById(id)
+                .orElseThrow(() -> new NoSuchStudyClassException(String.format("Study class does not exist with id=%d", id)));
+        User user = userRepository.findById(studyClassEditableDto.getUserId())
+                .orElseThrow(() -> new NoSuchUserException(String.format("User does not exist with id=%d", studyClassEditableDto.getUserId())));
 
-                    userRepository.findById(studyClassEditableDto.getUserId())
-                            .ifPresent(studyClass::setUser);
+        studyClass.setName(studyClassEditableDto.getName());
+        studyClass.setUser(user);
 
-                    return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
-                });
+        return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
     }
 
     @Override
-    public Optional<StudyClassDto> addStudentToStudyClassById(Long id, Long studentId) {
-        return studyClassRepository.findById(id)
-                .map(studyClass -> {
-                    studentRepository.findById(studentId)
-                            .ifPresent(student -> studyClass.getStudents().add(student));
+    public StudyClassDto addStudentToStudyClassById(Long id, Long studentId) throws NoSuchStudyClassException, NoSuchStudentException {
+        StudyClass studyClass = studyClassRepository.findById(id)
+                .orElseThrow(() -> new NoSuchStudyClassException(String.format("Study class does not exist with id=%d", id)));
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new NoSuchStudentException(String.format("Student does not exist with id=%d", studentId)));
 
-                    return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
-                });
+        studyClass.getStudents().add(student);
+
+        return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
     }
 
     @Override
-    public Optional<StudyClassDto> removeStudentFromStudyClassById(Long id, Long studentId) {
-        return studyClassRepository.findById(id)
-                .map(studyClass -> {
-                    studentRepository.findById(studentId)
-                            .ifPresent(student -> studyClass.getStudents().remove(student));
+    public StudyClassDto removeStudentFromStudyClassById(Long id, Long studentId) throws NoSuchStudyClassException, NoSuchStudentException {
+        StudyClass studyClass = studyClassRepository.findById(id)
+                .orElseThrow(() -> new NoSuchStudyClassException(String.format("Study class does not exist with id=%d", id)));
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new NoSuchStudentException(String.format("Student does not exist with id=%d", studentId)));
 
-                    return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
-                });
+        studyClass.getStudents().remove(student);
+
+        return studyClassMapper.mapToStudyClassDto(studyClassRepository.save(studyClass));
     }
 
     @Override

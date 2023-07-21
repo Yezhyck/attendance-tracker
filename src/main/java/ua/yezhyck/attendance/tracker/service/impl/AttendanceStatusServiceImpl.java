@@ -3,6 +3,7 @@ package ua.yezhyck.attendance.tracker.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.yezhyck.attendance.tracker.dto.AttendanceStatusDto;
+import ua.yezhyck.attendance.tracker.exception.NoSuchAttendanceStatusException;
 import ua.yezhyck.attendance.tracker.mapper.AttendanceStatusMapper;
 import ua.yezhyck.attendance.tracker.repository.AttendanceStatusRepository;
 import ua.yezhyck.attendance.tracker.service.AttendanceStatusService;
@@ -37,14 +38,15 @@ public class AttendanceStatusServiceImpl implements AttendanceStatusService {
     }
 
     @Override
-    public Optional<AttendanceStatusDto> modifyAttendanceStatusById(Long id, AttendanceStatusDto attendanceStatusDto) {
+    public AttendanceStatusDto modifyAttendanceStatusById(Long id, AttendanceStatusDto attendanceStatusDto) throws NoSuchAttendanceStatusException {
         return attendanceStatusRepository.findById(id)
                 .map(attendanceStatus -> {
                     attendanceStatus.setName(attendanceStatusDto.getName());
                     attendanceStatus.setType(attendanceStatusDto.getType());
 
                     return attendanceStatusMapper.mapToAttendanceStatusDto(attendanceStatusRepository.save(attendanceStatus));
-                });
+                })
+                .orElseThrow(() -> new NoSuchAttendanceStatusException(String.format("Attendance status does not exist with id=%d", id)));
     }
 
     @Override

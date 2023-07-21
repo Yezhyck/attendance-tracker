@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import ua.yezhyck.attendance.tracker.dto.LessonDto;
 import ua.yezhyck.attendance.tracker.dto.editable.LessonEditableDto;
 import ua.yezhyck.attendance.tracker.entity.Lesson;
+import ua.yezhyck.attendance.tracker.entity.StudyClass;
+import ua.yezhyck.attendance.tracker.exception.NoSuchLessonException;
+import ua.yezhyck.attendance.tracker.exception.NoSuchStudyClassException;
 import ua.yezhyck.attendance.tracker.mapper.LessonMapper;
 import ua.yezhyck.attendance.tracker.repository.LessonRepository;
 import ua.yezhyck.attendance.tracker.repository.StudyClassRepository;
@@ -27,11 +30,13 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public LessonDto addLesson(LessonEditableDto lessonEditableDto) {
+    public LessonDto addLesson(LessonEditableDto lessonEditableDto) throws NoSuchStudyClassException {
         Lesson lesson = lessonMapper.mapToLesson(lessonEditableDto);
 
-        studyClassRepository.findById(lessonEditableDto.getStudyClassId())
-                .ifPresent(lesson::setStudyClass);
+        StudyClass studyClass = studyClassRepository.findById(lessonEditableDto.getStudyClassId())
+                .orElseThrow(() -> new NoSuchStudyClassException(String.format("Study class does not exist with id=%d", lessonEditableDto.getStudyClassId())));
+
+        lesson.setStudyClass(studyClass);
 
         return lessonMapper.mapToLessonDto(lessonRepository.save(lesson));
     }
@@ -47,16 +52,16 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public Optional<LessonDto> modifyLessonById(Long id, LessonEditableDto lessonEditableDto) {
-        return lessonRepository.findById(id)
-                .map(lesson -> {
-                    lesson.setDate(lessonEditableDto.getDate());
+    public LessonDto modifyLessonById(Long id, LessonEditableDto lessonEditableDto) throws NoSuchLessonException, NoSuchStudyClassException {
+        Lesson lesson = lessonRepository.findById(id)
+                .orElseThrow(() -> new NoSuchLessonException(String.format("Lesson does not exist with id=%d", id)));
+        StudyClass studyClass = studyClassRepository.findById(lessonEditableDto.getStudyClassId())
+                .orElseThrow(() -> new NoSuchStudyClassException(String.format("Study class does not exist with id=%d", lessonEditableDto.getStudyClassId())));
 
-                    studyClassRepository.findById(lessonEditableDto.getStudyClassId())
-                            .ifPresent(lesson::setStudyClass);
+        lesson.setDate(lessonEditableDto.getDate());
+        lesson.setStudyClass(studyClass);
 
-                    return lessonMapper.mapToLessonDto(lessonRepository.save(lesson));
-                });
+        return lessonMapper.mapToLessonDto(lessonRepository.save(lesson));
     }
 
     @Override

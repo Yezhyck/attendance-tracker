@@ -1,5 +1,6 @@
 package ua.yezhyck.attendance.tracker.controller;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,11 +37,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @SneakyThrows
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUserById(@PathVariable("id") Long id, @RequestBody UserEditableDto userEditableDto) {
-        return userService.modifyUserById(id, userEditableDto)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(userService.modifyUserById(id, userEditableDto));
     }
 
     @DeleteMapping("/{id}")

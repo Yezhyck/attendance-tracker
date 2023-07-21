@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.yezhyck.attendance.tracker.dto.LessonStudentDto;
 import ua.yezhyck.attendance.tracker.dto.editable.LessonStudentEditableDto;
-import ua.yezhyck.attendance.tracker.entity.LessonStudent;
+import ua.yezhyck.attendance.tracker.entity.*;
+import ua.yezhyck.attendance.tracker.exception.*;
 import ua.yezhyck.attendance.tracker.mapper.LessonStudentMapper;
 import ua.yezhyck.attendance.tracker.repository.*;
 import ua.yezhyck.attendance.tracker.service.LessonStudentService;
@@ -22,11 +23,7 @@ public class LessonStudentServiceImpl implements LessonStudentService {
     private final AbsenceReasonRepository absenceReasonRepository;
 
     @Autowired
-    public LessonStudentServiceImpl(LessonStudentMapper lessonStudentMapper, LessonStudentRepository lessonStudentRepository,
-                                    StudentRepository studentRepository,
-                                    LessonRepository lessonRepository,
-                                    AttendanceStatusRepository attendanceStatusRepository,
-                                    AbsenceReasonRepository absenceReasonRepository) {
+    public LessonStudentServiceImpl(LessonStudentMapper lessonStudentMapper, LessonStudentRepository lessonStudentRepository, StudentRepository studentRepository, LessonRepository lessonRepository, AttendanceStatusRepository attendanceStatusRepository, AbsenceReasonRepository absenceReasonRepository) {
         this.lessonStudentMapper = lessonStudentMapper;
         this.lessonStudentRepository = lessonStudentRepository;
         this.studentRepository = studentRepository;
@@ -36,7 +33,7 @@ public class LessonStudentServiceImpl implements LessonStudentService {
     }
 
     @Override
-    public LessonStudentDto addLessonStudent(LessonStudentEditableDto lessonStudentEditableDto) {
+    public LessonStudentDto addLessonStudent(LessonStudentEditableDto lessonStudentEditableDto) throws NoSuchStudentException, NoSuchLessonException, NoSuchAbsenceReasonException, NoSuchAttendanceStatusException {
         return lessonStudentMapper.mapToLessonStudentDto(lessonStudentRepository.save(configureLessonStudent(lessonStudentEditableDto, new LessonStudent())));
     }
 
@@ -51,9 +48,11 @@ public class LessonStudentServiceImpl implements LessonStudentService {
     }
 
     @Override
-    public Optional<LessonStudentDto> modifyLessonStudentById(Long id, LessonStudentEditableDto lessonStudentEditableDto) {
-        return lessonStudentRepository.findById(id)
-                .map(lessonStudent -> lessonStudentMapper.mapToLessonStudentDto(lessonStudentRepository.save(configureLessonStudent(lessonStudentEditableDto, lessonStudent))));
+    public LessonStudentDto modifyLessonStudentById(Long id, LessonStudentEditableDto lessonStudentEditableDto) throws NoSuchLessonStudentException, NoSuchStudentException, NoSuchLessonException, NoSuchAbsenceReasonException, NoSuchAttendanceStatusException {
+        LessonStudent lessonStudent = lessonStudentRepository.findById(id)
+                .orElseThrow(() -> new NoSuchLessonStudentException(String.format("LessonStudent does not exist with id=%d", id)));
+
+        return lessonStudentMapper.mapToLessonStudentDto(lessonStudentRepository.save(configureLessonStudent(lessonStudentEditableDto, lessonStudent)));
     }
 
     @Override
@@ -66,15 +65,20 @@ public class LessonStudentServiceImpl implements LessonStudentService {
         return lessonStudentRepository.existsById(id);
     }
 
-    private LessonStudent configureLessonStudent(LessonStudentEditableDto lessonStudentEditableDto, LessonStudent lessonStudent) {
-        lessonRepository.findById(lessonStudentEditableDto.getLessonId())
-                .ifPresent(lessonStudent::setLesson);
-        studentRepository.findById(lessonStudentEditableDto.getStudentId())
-                .ifPresent(lessonStudent::setStudent);
-        attendanceStatusRepository.findById(lessonStudentEditableDto.getAttendanceStatusId())
-                .ifPresent(lessonStudent::setAttendanceStatus);
-        absenceReasonRepository.findById(lessonStudentEditableDto.getAbsenceReasonId())
-                .ifPresent(lessonStudent::setAbsenceReason);
+    private LessonStudent configureLessonStudent(LessonStudentEditableDto lessonStudentEditableDto, LessonStudent lessonStudent) throws NoSuchLessonException, NoSuchStudentException, NoSuchAttendanceStatusException, NoSuchAbsenceReasonException {
+        Lesson lesson = lessonRepository.findById(lessonStudentEditableDto.getLessonId())
+                .orElseThrow(() -> new NoSuchLessonException(String.format("Lesson does not exist with id=%d", lessonStudentEditableDto.getLessonId())));
+        Student student = studentRepository.findById(lessonStudentEditableDto.getStudentId())
+                .orElseThrow(() -> new NoSuchStudentException(String.format("Student does not exist with id=%d", lessonStudentEditableDto.getStudentId())));
+        AttendanceStatus attendanceStatus = attendanceStatusRepository.findById(lessonStudentEditableDto.getAttendanceStatusId())
+                .orElseThrow(() -> new NoSuchAttendanceStatusException(String.format("Attendance status does not exist with id=%d", lessonStudentEditableDto.getAttendanceStatusId())));
+        AbsenceReason absenceReason = absenceReasonRepository.findById(lessonStudentEditableDto.getAbsenceReasonId())
+                .orElseThrow(() -> new NoSuchAbsenceReasonException(String.format("Absence reason does not exist with id=%d", lessonStudentEditableDto.getAbsenceReasonId())));
+
+        lessonStudent.setLesson(lesson);
+        lessonStudent.setStudent(student);
+        lessonStudent.setAttendanceStatus(attendanceStatus);
+        lessonStudent.setAbsenceReason(absenceReason);
 
         return lessonStudent;
     }

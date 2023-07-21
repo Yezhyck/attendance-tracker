@@ -1,6 +1,7 @@
 package ua.yezhyck.attendance.tracker.service;
 
 import ua.yezhyck.attendance.tracker.dto.AbsenceReasonDto;
+import ua.yezhyck.attendance.tracker.exception.NoSuchAbsenceReasonException;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,7 @@ public interface AbsenceReasonService {
 
     List<AbsenceReasonDto> getAllAbsenceReasons();
 
-    Optional<AbsenceReasonDto> modifyAbsenceReasonById(Long id, AbsenceReasonDto absenceReasonDto);
+    AbsenceReasonDto modifyAbsenceReasonById(Long id, AbsenceReasonDto absenceReasonDto) throws NoSuchAbsenceReasonException;
 
     void removeAbsenceReasonById(Long id);
 

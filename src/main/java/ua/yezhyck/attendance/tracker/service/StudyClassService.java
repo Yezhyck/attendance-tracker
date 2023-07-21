@@ -2,23 +2,26 @@ package ua.yezhyck.attendance.tracker.service;
 
 import ua.yezhyck.attendance.tracker.dto.StudyClassDto;
 import ua.yezhyck.attendance.tracker.dto.editable.StudyClassEditableDto;
+import ua.yezhyck.attendance.tracker.exception.NoSuchStudentException;
+import ua.yezhyck.attendance.tracker.exception.NoSuchStudyClassException;
+import ua.yezhyck.attendance.tracker.exception.NoSuchUserException;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface StudyClassService {
 
-    StudyClassDto addStudyClass(StudyClassEditableDto studyClassEditableDto);
+    StudyClassDto addStudyClass(StudyClassEditableDto studyClassEditableDto) throws NoSuchUserException;
 
     Optional<StudyClassDto> getStudyClassById(Long id);
 
     List<StudyClassDto> getAllStudyClasses();
 
-    Optional<StudyClassDto> modifyStudyClassById(Long id, StudyClassEditableDto studyClassEditableDto);
+    StudyClassDto modifyStudyClassById(Long id, StudyClassEditableDto studyClassEditableDto) throws NoSuchStudyClassException, NoSuchUserException;
 
-    Optional<StudyClassDto> addStudentToStudyClassById(Long id, Long studentId);
+    StudyClassDto addStudentToStudyClassById(Long id, Long studentId) throws NoSuchStudyClassException, NoSuchStudentException;
 
-    Optional<StudyClassDto> removeStudentFromStudyClassById(Long id, Long studentId);
+    StudyClassDto removeStudentFromStudyClassById(Long id, Long studentId) throws NoSuchStudyClassException, NoSuchStudentException;
 
     void removeStudyClassById(Long id);
 

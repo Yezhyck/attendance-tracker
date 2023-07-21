@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.yezhyck.attendance.tracker.dto.UserDto;
 import ua.yezhyck.attendance.tracker.dto.editable.UserEditableDto;
+import ua.yezhyck.attendance.tracker.exception.NoSuchUserException;
 import ua.yezhyck.attendance.tracker.mapper.UserMapper;
 import ua.yezhyck.attendance.tracker.repository.UserRepository;
 import ua.yezhyck.attendance.tracker.service.UserService;
@@ -38,13 +39,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDto> modifyUserById(Long id, UserEditableDto userEditableDto) {
+    public UserDto modifyUserById(Long id, UserEditableDto userEditableDto) throws NoSuchUserException {
         return userRepository.findById(id)
                 .map(user -> {
                     user.setTelegramId(userEditableDto.getTelegramId());
 
                     return userMapper.mapToUserDto(userRepository.save(user));
-                });
+                })
+                .orElseThrow(() -> new NoSuchUserException(String.format("User does not exist with id=%d", id)));
     }
 
     @Override

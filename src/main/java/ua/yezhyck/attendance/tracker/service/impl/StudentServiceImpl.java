@@ -3,6 +3,7 @@ package ua.yezhyck.attendance.tracker.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.yezhyck.attendance.tracker.dto.StudentDto;
+import ua.yezhyck.attendance.tracker.exception.NoSuchStudentException;
 import ua.yezhyck.attendance.tracker.mapper.StudentMapper;
 import ua.yezhyck.attendance.tracker.repository.StudentRepository;
 import ua.yezhyck.attendance.tracker.service.StudentService;
@@ -37,14 +38,15 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Optional<StudentDto> modifyStudentById(Long id, StudentDto studentDto) {
+    public StudentDto modifyStudentById(Long id, StudentDto studentDto) throws NoSuchStudentException {
         return studentRepository.findById(id)
                 .map(student -> {
                     student.setFirstName(studentDto.getFirstName());
                     student.setLastName(studentDto.getLastName());
 
                     return studentMapper.mapToStudentDto(studentRepository.save(student));
-                });
+                })
+                .orElseThrow(() -> new NoSuchStudentException(String.format("Student does not exist with id=%d", id)));
     }
 
     @Override

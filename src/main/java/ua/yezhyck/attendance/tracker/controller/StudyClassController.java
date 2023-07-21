@@ -1,5 +1,6 @@
 package ua.yezhyck.attendance.tracker.controller;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ public class StudyClassController {
         this.studyClassService = studyClassService;
     }
 
+    @SneakyThrows
     @PostMapping
     public ResponseEntity<StudyClassDto> createStudyClass(@RequestBody StudyClassEditableDto studyClassEditableDto) {
         return ResponseEntity.ok(studyClassService.addStudyClass(studyClassEditableDto));
@@ -36,25 +38,22 @@ public class StudyClassController {
         return ResponseEntity.ok(studyClassService.getAllStudyClasses());
     }
 
+    @SneakyThrows
     @PutMapping("/{id}")
     public ResponseEntity<StudyClassDto> updateStudyClassById(@PathVariable("id") Long id, @RequestBody StudyClassEditableDto studyClassEditableDto) {
-        return studyClassService.modifyStudyClassById(id, studyClassEditableDto)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(studyClassService.modifyStudyClassById(id, studyClassEditableDto));
     }
 
+    @SneakyThrows
     @PutMapping("/add-student/{id}")
     public ResponseEntity<StudyClassDto> addStudentToStudyClassById(@PathVariable("id") Long id, @RequestParam("studentId") Long studentId) {
-        return studyClassService.addStudentToStudyClassById(id, studentId)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(studyClassService.addStudentToStudyClassById(id, studentId));
     }
 
+    @SneakyThrows
     @PutMapping("/remove-student/{id}")
     public ResponseEntity<StudyClassDto> removeStudentFromStudyClassById(@PathVariable("id") Long id, @RequestParam("studentId") Long studentId) {
-        return studyClassService.removeStudentFromStudyClassById(id, studentId)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(studyClassService.removeStudentFromStudyClassById(id, studentId));
     }
 
     @DeleteMapping("/{id}")
