@@ -42,12 +42,9 @@ public class AttendanceStatusController {
         return ResponseEntity.ok(attendanceStatusService.modifyAttendanceStatusById(id, attendanceStatusDto));
     }
 
+    @SneakyThrows
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAttendanceStatusById(@PathVariable("id") Long id) {
-        if (!attendanceStatusService.checkIfAttendanceStatusExistsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
         attendanceStatusService.removeAttendanceStatusById(id);
 
         return ResponseEntity.ok().build();

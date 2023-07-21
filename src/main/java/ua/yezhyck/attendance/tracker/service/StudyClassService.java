@@ -23,7 +23,5 @@ public interface StudyClassService {
 
     StudyClassDto removeStudentFromStudyClassById(Long id, Long studentId) throws NoSuchStudyClassException, NoSuchStudentException;
 
-    void removeStudyClassById(Long id);
-
-    boolean checkIfStudyClassExistsById(Long id);
+    void removeStudyClassById(Long id) throws NoSuchStudyClassException;
 }

@@ -16,7 +16,5 @@ public interface AttendanceStatusService {
 
     AttendanceStatusDto modifyAttendanceStatusById(Long id, AttendanceStatusDto attendanceStatusDto) throws NoSuchAttendanceStatusException;
 
-    void removeAttendanceStatusById(Long id);
-
-    boolean checkIfAttendanceStatusExistsById(Long id);
+    void removeAttendanceStatusById(Long id) throws NoSuchAttendanceStatusException;
 }

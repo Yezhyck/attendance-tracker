@@ -17,7 +17,5 @@ public interface LessonStudentService {
 
     LessonStudentDto modifyLessonStudentById(Long id, LessonStudentEditableDto lessonStudentEditableDto) throws NoSuchLessonStudentException, NoSuchStudentException, NoSuchLessonException, NoSuchAbsenceReasonException, NoSuchAttendanceStatusException;
 
-    void removeLessonStudentById(Long id);
-
-    boolean checkIfLessonStudentExistsById(Long id);
+    void removeLessonStudentById(Long id) throws NoSuchLessonStudentException;
 }

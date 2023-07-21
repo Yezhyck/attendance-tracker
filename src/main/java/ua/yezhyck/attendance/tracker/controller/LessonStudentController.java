@@ -44,12 +44,9 @@ public class LessonStudentController {
         return ResponseEntity.ok(lessonStudentService.modifyLessonStudentById(id, lessonStudentEditableDto));
     }
 
+    @SneakyThrows
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLessonStudentById(@PathVariable("id") Long id) {
-        if (!lessonStudentService.checkIfLessonStudentExistsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
         lessonStudentService.removeLessonStudentById(id);
 
         return ResponseEntity.ok().build();

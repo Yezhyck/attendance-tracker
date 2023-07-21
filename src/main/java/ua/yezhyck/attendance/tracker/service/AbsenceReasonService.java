@@ -16,7 +16,5 @@ public interface AbsenceReasonService {
 
     AbsenceReasonDto modifyAbsenceReasonById(Long id, AbsenceReasonDto absenceReasonDto) throws NoSuchAbsenceReasonException;
 
-    void removeAbsenceReasonById(Long id);
-
-    boolean checkIfAbsenceReasonExistsById(Long id);
+    void removeAbsenceReasonById(Long id) throws NoSuchAbsenceReasonException;
 }

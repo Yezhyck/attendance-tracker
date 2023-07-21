@@ -94,12 +94,11 @@ public class StudyClassServiceImpl implements StudyClassService {
     }
 
     @Override
-    public void removeStudyClassById(Long id) {
-        studyClassRepository.deleteById(id);
-    }
+    public void removeStudyClassById(Long id) throws NoSuchStudyClassException {
+        if (!studyClassRepository.existsById(id)) {
+            throw new NoSuchStudyClassException(String.format("Study class does not exist with id=%d", id));
+        }
 
-    @Override
-    public boolean checkIfStudyClassExistsById(Long id) {
-        return studyClassRepository.existsById(id);
+        studyClassRepository.deleteById(id);
     }
 }

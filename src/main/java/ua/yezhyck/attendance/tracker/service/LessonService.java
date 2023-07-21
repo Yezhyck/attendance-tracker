@@ -18,7 +18,5 @@ public interface LessonService {
 
     LessonDto modifyLessonById(Long id, LessonEditableDto lessonEditableDto) throws NoSuchLessonException, NoSuchStudyClassException;
 
-    void removeLessonById(Long id);
-
-    boolean checkIfLessonExistsById(Long id);
+    void removeLessonById(Long id) throws NoSuchLessonException;
 }

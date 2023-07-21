@@ -50,12 +50,11 @@ public class AbsenceReasonServiceImpl implements AbsenceReasonService {
     }
 
     @Override
-    public void removeAbsenceReasonById(Long id) {
-        absenceReasonRepository.deleteById(id);
-    }
+    public void removeAbsenceReasonById(Long id) throws NoSuchAbsenceReasonException {
+        if (!absenceReasonRepository.existsById(id)) {
+            throw new NoSuchAbsenceReasonException(String.format("Absence reason does not exist with id=%d", id));
+        }
 
-    @Override
-    public boolean checkIfAbsenceReasonExistsById(Long id) {
-        return absenceReasonRepository.existsById(id);
+        absenceReasonRepository.deleteById(id);
     }
 }

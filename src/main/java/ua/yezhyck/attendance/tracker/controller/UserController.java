@@ -43,12 +43,9 @@ public class UserController {
         return ResponseEntity.ok(userService.modifyUserById(id, userEditableDto));
     }
 
+    @SneakyThrows
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable("id") Long id) {
-        if (!userService.checkIfUserExistsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
         userService.removeUserById(id);
 
         return ResponseEntity.ok().build();

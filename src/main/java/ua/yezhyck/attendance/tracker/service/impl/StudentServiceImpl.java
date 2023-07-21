@@ -50,12 +50,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void removeStudentById(Long id) {
-        studentRepository.deleteById(id);
-    }
+    public void removeStudentById(Long id) throws NoSuchStudentException {
+        if (!studentRepository.existsById(id)) {
+            throw new NoSuchStudentException(String.format("Student does not exist with id=%d", id));
+        }
 
-    @Override
-    public boolean checkIfStudentExistsById(Long id) {
-        return studentRepository.existsById(id);
+        studentRepository.deleteById(id);
     }
 }

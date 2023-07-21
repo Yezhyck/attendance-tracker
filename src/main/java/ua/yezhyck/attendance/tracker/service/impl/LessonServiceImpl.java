@@ -65,12 +65,11 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public void removeLessonById(Long id) {
-        lessonRepository.deleteById(id);
-    }
+    public void removeLessonById(Long id) throws NoSuchLessonException {
+        if (!lessonRepository.existsById(id)) {
+            throw new NoSuchLessonException(String.format("Lesson does not exist with id=%d", id));
+        }
 
-    @Override
-    public boolean checkIfLessonExistsById(Long id) {
-        return lessonRepository.existsById(id);
+        lessonRepository.deleteById(id);
     }
 }

@@ -56,13 +56,12 @@ public class LessonStudentServiceImpl implements LessonStudentService {
     }
 
     @Override
-    public void removeLessonStudentById(Long id) {
-        lessonStudentRepository.deleteById(id);
-    }
+    public void removeLessonStudentById(Long id) throws NoSuchLessonStudentException {
+        if (!lessonStudentRepository.existsById(id)) {
+            throw new NoSuchLessonStudentException(String.format("LessonStudent does not exist with id=%d", id));
+        }
 
-    @Override
-    public boolean checkIfLessonStudentExistsById(Long id) {
-        return lessonStudentRepository.existsById(id);
+        lessonStudentRepository.deleteById(id);
     }
 
     private LessonStudent configureLessonStudent(LessonStudentEditableDto lessonStudentEditableDto, LessonStudent lessonStudent) throws NoSuchLessonException, NoSuchStudentException, NoSuchAttendanceStatusException, NoSuchAbsenceReasonException {

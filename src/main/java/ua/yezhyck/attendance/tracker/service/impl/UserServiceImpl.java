@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.yezhyck.attendance.tracker.dto.UserDto;
 import ua.yezhyck.attendance.tracker.dto.editable.UserEditableDto;
+import ua.yezhyck.attendance.tracker.entity.User;
 import ua.yezhyck.attendance.tracker.exception.NoSuchUserException;
 import ua.yezhyck.attendance.tracker.mapper.UserMapper;
 import ua.yezhyck.attendance.tracker.repository.UserRepository;
@@ -50,12 +51,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void removeUserById(Long id) {
-        userRepository.deleteById(id);
-    }
+    public void removeUserById(Long id) throws NoSuchUserException {
+        if (!userRepository.existsById(id)) {
+            throw new NoSuchUserException(String.format("User does not exist with id=%d", id));
+        }
 
-    @Override
-    public boolean checkIfUserExistsById(Long id) {
-        return userRepository.existsById(id);
+        userRepository.deleteById(id);
     }
 }

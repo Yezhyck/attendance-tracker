@@ -42,12 +42,9 @@ public class AbsenceReasonController {
         return ResponseEntity.ok(absenceReasonService.modifyAbsenceReasonById(id, absenceReasonDto));
     }
 
+    @SneakyThrows
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAbsenceReasonById(@PathVariable("id") Long id) {
-        if (!absenceReasonService.checkIfAbsenceReasonExistsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
         absenceReasonService.removeAbsenceReasonById(id);
 
         return ResponseEntity.ok().build();

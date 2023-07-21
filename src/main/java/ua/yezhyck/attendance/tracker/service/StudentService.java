@@ -16,7 +16,5 @@ public interface StudentService {
 
     StudentDto modifyStudentById(Long id, StudentDto studentDto) throws NoSuchStudentException;
 
-    void removeStudentById(Long id);
-
-    boolean checkIfStudentExistsById(Long id);
+    void removeStudentById(Long id) throws NoSuchStudentException;
 }

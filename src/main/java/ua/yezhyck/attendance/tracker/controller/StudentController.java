@@ -42,12 +42,9 @@ public class StudentController {
         return ResponseEntity.ok(studentService.modifyStudentById(id, studentDto));
     }
 
+    @SneakyThrows
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudentById(@PathVariable("id") Long id) {
-        if (!studentService.checkIfStudentExistsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
         studentService.removeStudentById(id);
 
         return ResponseEntity.ok().build();

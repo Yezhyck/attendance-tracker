@@ -50,12 +50,11 @@ public class AttendanceStatusServiceImpl implements AttendanceStatusService {
     }
 
     @Override
-    public void removeAttendanceStatusById(Long id) {
-        attendanceStatusRepository.deleteById(id);
-    }
+    public void removeAttendanceStatusById(Long id) throws NoSuchAttendanceStatusException {
+        if (!attendanceStatusRepository.existsById(id)) {
+            throw new NoSuchAttendanceStatusException(String.format("Attendance status does not exist with id=%d", id));
+        }
 
-    @Override
-    public boolean checkIfAttendanceStatusExistsById(Long id) {
-        return attendanceStatusRepository.existsById(id);
+        attendanceStatusRepository.deleteById(id);
     }
 }

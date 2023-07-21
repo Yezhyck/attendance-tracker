@@ -16,7 +16,5 @@ public interface UserService {
 
     UserDto modifyUserById(Long id, UserEditableDto userEditableDto) throws NoSuchUserException;
 
-    void removeUserById(Long id);
-
-    boolean checkIfUserExistsById(Long id);
+    void removeUserById(Long id) throws NoSuchUserException;
 }
