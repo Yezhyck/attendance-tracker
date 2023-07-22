@@ -23,7 +23,7 @@ public class User {
     @Column(name = "telegram_id", unique = true)
     private Long telegramId;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     @ToString.Exclude
     private Set<StudyClass> studyClasses = new LinkedHashSet<>();
 }

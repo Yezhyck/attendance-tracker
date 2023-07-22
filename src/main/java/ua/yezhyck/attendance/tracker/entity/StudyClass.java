@@ -41,7 +41,7 @@ public class StudyClass {
     @ToString.Exclude
     private Set<Student> students = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "studyClass", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyClass", orphanRemoval = true)
     @ToString.Exclude
     private Set<Lesson> lessons = new LinkedHashSet<>();
 

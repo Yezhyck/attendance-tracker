@@ -28,7 +28,7 @@ public class AttendanceStatus {
     @Enumerated(value = EnumType.STRING)
     private AttendanceStatusType type;
 
-    @OneToMany(mappedBy = "attendanceStatus", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "attendanceStatus", orphanRemoval = true)
     @ToString.Exclude
     private Set<LessonStudent> lessonStudents = new LinkedHashSet<>();
 }

@@ -33,7 +33,7 @@ public class Lesson {
     @Column(name = "date", nullable = false)
     private LocalDate date;
 
-    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lesson", orphanRemoval = true)
     @ToString.Exclude
     private Set<LessonStudent> lessonStudents = new LinkedHashSet<>();
 
