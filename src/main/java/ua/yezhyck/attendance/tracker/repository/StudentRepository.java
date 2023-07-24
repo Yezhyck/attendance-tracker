@@ -17,8 +17,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             "         INNER JOIN study_classes sc1 ON sc1.id = scs1.id_study_class " +
             "WHERE s1 IN (SELECT s2 " +
             "             FROM study_classes sc2 " +
-            "                      INNER JOIN study_classes_students scs2 on sc2.id = scs2.id_study_class " +
-            "                      INNER JOIN students s2 on s2.id = scs2.id_student " +
+            "                      INNER JOIN study_classes_students scs2 ON sc2.id = scs2.id_study_class " +
+            "                      INNER JOIN students s2 ON s2.id = scs2.id_student " +
             "             WHERE sc2.id = :studyClassId) " +
             "GROUP BY s1.id " +
             "HAVING COUNT(sc1) = 1", nativeQuery = true)
