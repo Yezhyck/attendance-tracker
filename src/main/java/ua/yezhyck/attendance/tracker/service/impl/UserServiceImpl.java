@@ -60,14 +60,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeUserById(Long id) throws NoSuchUserException {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchUserException(String.format("User does not exist with id=%d", id)));
+        if (!userRepository.existsById(id)) {
+            throw new NoSuchUserException(String.format("User does not exist with id=%d", id));
+        }
 
-        Set<Student> students = user.getStudyClasses().stream()
-                .flatMap(studyClass -> studyClass.getStudents().stream())
-                .collect(Collectors.toSet());
+        List<Student> studentsForDelete = studentRepository.findWithOneStudyClassByUserId(id);
 
         userRepository.deleteById(id);
-        studentRepository.deleteAll(students);
+        studentRepository.deleteAll(studentsForDelete);
     }
 }

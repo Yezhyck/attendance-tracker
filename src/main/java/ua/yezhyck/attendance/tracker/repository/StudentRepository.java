@@ -11,6 +11,14 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
+    @Query(value = "SELECT DISTINCT s.id, first_name, last_name " +
+            "FROM users u " +
+            "         INNER JOIN study_classes sc ON u.id = sc.id_user " +
+            "         INNER JOIN study_classes_students scs ON sc.id = scs.id_study_class " +
+            "         INNER JOIN students s ON s.id = scs.id_student " +
+            "WHERE u.id = :userId", nativeQuery = true)
+    List<Student> findWithOneStudyClassByUserId(@Param("userId") Long userId);
+
     @Query(value = "SELECT s1.id, first_name, last_name " +
             "FROM students s1 " +
             "         INNER JOIN study_classes_students scs1 ON s1.id = scs1.id_student " +
