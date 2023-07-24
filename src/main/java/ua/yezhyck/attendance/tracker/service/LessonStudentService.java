@@ -9,13 +9,13 @@ import java.util.Optional;
 
 public interface LessonStudentService {
 
-    LessonStudentDto addLessonStudent(LessonStudentEditableDto lessonStudentEditableDto) throws NoSuchStudentException, NoSuchLessonException, NoSuchAbsenceReasonException, NoSuchAttendanceStatusException;
+    LessonStudentDto addLessonStudent(LessonStudentEditableDto lessonStudentEditableDto) throws NoSuchStudentException, NoSuchLessonException, NoSuchAbsenceReasonException, NoSuchAttendanceStatusException, NotAddedToStudyClassStudentException;
 
     Optional<LessonStudentDto> getLessonStudentById(Long id);
 
     List<LessonStudentDto> getAllLessonStudents();
 
-    LessonStudentDto modifyLessonStudentById(Long id, LessonStudentEditableDto lessonStudentEditableDto) throws NoSuchLessonStudentException, NoSuchStudentException, NoSuchLessonException, NoSuchAbsenceReasonException, NoSuchAttendanceStatusException;
+    LessonStudentDto modifyLessonStudentById(Long id, LessonStudentEditableDto lessonStudentEditableDto) throws NoSuchLessonStudentException, NoSuchStudentException, NoSuchLessonException, NoSuchAbsenceReasonException, NoSuchAttendanceStatusException, NotAddedToStudyClassStudentException;
 
     void removeLessonStudentById(Long id) throws NoSuchLessonStudentException;
 }

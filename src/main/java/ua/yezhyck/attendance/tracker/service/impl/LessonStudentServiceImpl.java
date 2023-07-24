@@ -33,7 +33,7 @@ public class LessonStudentServiceImpl implements LessonStudentService {
     }
 
     @Override
-    public LessonStudentDto addLessonStudent(LessonStudentEditableDto lessonStudentEditableDto) throws NoSuchStudentException, NoSuchLessonException, NoSuchAbsenceReasonException, NoSuchAttendanceStatusException {
+    public LessonStudentDto addLessonStudent(LessonStudentEditableDto lessonStudentEditableDto) throws NoSuchStudentException, NoSuchLessonException, NoSuchAbsenceReasonException, NoSuchAttendanceStatusException, NotAddedToStudyClassStudentException {
         return lessonStudentMapper.mapToLessonStudentDto(lessonStudentRepository.save(configureLessonStudent(lessonStudentEditableDto, new LessonStudent())));
     }
 
@@ -48,7 +48,7 @@ public class LessonStudentServiceImpl implements LessonStudentService {
     }
 
     @Override
-    public LessonStudentDto modifyLessonStudentById(Long id, LessonStudentEditableDto lessonStudentEditableDto) throws NoSuchLessonStudentException, NoSuchStudentException, NoSuchLessonException, NoSuchAbsenceReasonException, NoSuchAttendanceStatusException {
+    public LessonStudentDto modifyLessonStudentById(Long id, LessonStudentEditableDto lessonStudentEditableDto) throws NoSuchLessonStudentException, NoSuchStudentException, NoSuchLessonException, NoSuchAbsenceReasonException, NoSuchAttendanceStatusException, NotAddedToStudyClassStudentException {
         LessonStudent lessonStudent = lessonStudentRepository.findById(id)
                 .orElseThrow(() -> new NoSuchLessonStudentException(String.format("LessonStudent does not exist with id=%d", id)));
 
@@ -64,11 +64,16 @@ public class LessonStudentServiceImpl implements LessonStudentService {
         lessonStudentRepository.deleteById(id);
     }
 
-    private LessonStudent configureLessonStudent(LessonStudentEditableDto lessonStudentEditableDto, LessonStudent lessonStudent) throws NoSuchLessonException, NoSuchStudentException, NoSuchAttendanceStatusException, NoSuchAbsenceReasonException {
+    private LessonStudent configureLessonStudent(LessonStudentEditableDto lessonStudentEditableDto, LessonStudent lessonStudent) throws NoSuchLessonException, NoSuchStudentException, NoSuchAttendanceStatusException, NoSuchAbsenceReasonException, NotAddedToStudyClassStudentException {
         Lesson lesson = lessonRepository.findById(lessonStudentEditableDto.getLessonId())
                 .orElseThrow(() -> new NoSuchLessonException(String.format("Lesson does not exist with id=%d", lessonStudentEditableDto.getLessonId())));
         Student student = studentRepository.findById(lessonStudentEditableDto.getStudentId())
                 .orElseThrow(() -> new NoSuchStudentException(String.format("Student does not exist with id=%d", lessonStudentEditableDto.getStudentId())));
+
+        if (!lesson.getStudyClass().getStudents().contains(student)) {
+            throw new NotAddedToStudyClassStudentException(String.format("Student with id=%d is not added to StudyClass with id=%d", lessonStudentEditableDto.getStudentId(), lesson.getStudyClass().getId()));
+        }
+
         AttendanceStatus attendanceStatus = attendanceStatusRepository.findById(lessonStudentEditableDto.getAttendanceStatusId())
                 .orElseThrow(() -> new NoSuchAttendanceStatusException(String.format("Attendance status does not exist with id=%d", lessonStudentEditableDto.getAttendanceStatusId())));
         AbsenceReason absenceReason = absenceReasonRepository.findById(lessonStudentEditableDto.getAbsenceReasonId())
