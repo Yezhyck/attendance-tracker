@@ -3,13 +3,13 @@ package ua.yezhyck.attendance.tracker.exception.handler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import ua.yezhyck.attendance.tracker.exception.NoSuchUserException;
+import ua.yezhyck.attendance.tracker.exception.NoSuchStudyClassException;
 
 @ControllerAdvice
-public class NoSuchUserExceptionHandler {
+public class StudyClassExceptionHandler {
 
-    @ExceptionHandler(NoSuchUserException.class)
-    public ResponseEntity<String> handleNoSuchUserException(NoSuchUserException e) {
+    @ExceptionHandler(NoSuchStudyClassException.class)
+    public ResponseEntity<String> handleNoSuchStudyClassException(NoSuchStudyClassException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
