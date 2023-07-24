@@ -4,24 +4,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.yezhyck.attendance.tracker.dto.UserDto;
 import ua.yezhyck.attendance.tracker.dto.editable.UserEditableDto;
+import ua.yezhyck.attendance.tracker.entity.Student;
+import ua.yezhyck.attendance.tracker.entity.StudyClass;
 import ua.yezhyck.attendance.tracker.entity.User;
 import ua.yezhyck.attendance.tracker.exception.NoSuchUserException;
 import ua.yezhyck.attendance.tracker.mapper.UserMapper;
+import ua.yezhyck.attendance.tracker.repository.StudentRepository;
 import ua.yezhyck.attendance.tracker.repository.UserRepository;
 import ua.yezhyck.attendance.tracker.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final StudentRepository studentRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper,
+                           StudentRepository studentRepository) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -52,10 +60,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeUserById(Long id) throws NoSuchUserException {
-        if (!userRepository.existsById(id)) {
-            throw new NoSuchUserException(String.format("User does not exist with id=%d", id));
-        }
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchUserException(String.format("User does not exist with id=%d", id)));
+
+        Set<Student> students = user.getStudyClasses().stream()
+                .flatMap(studyClass -> studyClass.getStudents().stream())
+                .collect(Collectors.toSet());
 
         userRepository.deleteById(id);
+        studentRepository.deleteAll(students);
     }
 }

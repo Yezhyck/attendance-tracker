@@ -95,10 +95,12 @@ public class StudyClassServiceImpl implements StudyClassService {
 
     @Override
     public void removeStudyClassById(Long id) throws NoSuchStudyClassException {
-        if (!studyClassRepository.existsById(id)) {
-            throw new NoSuchStudyClassException(String.format("Study class does not exist with id=%d", id));
-        }
+        StudyClass studyClass = studyClassRepository.findById(id)
+                .orElseThrow(() -> new NoSuchStudyClassException(String.format("Study class does not exist with id=%d", id)));
+
+        List<Student> studentsForDelete = studentRepository.findWithOneStudyClass(studyClass.getStudents().stream().toList());
 
         studyClassRepository.deleteById(id);
+        studentRepository.deleteAll(studentsForDelete);
     }
 }
