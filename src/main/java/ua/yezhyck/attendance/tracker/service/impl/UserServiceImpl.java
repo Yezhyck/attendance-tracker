@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import ua.yezhyck.attendance.tracker.dto.UserDto;
 import ua.yezhyck.attendance.tracker.dto.editable.UserEditableDto;
 import ua.yezhyck.attendance.tracker.entity.Student;
-import ua.yezhyck.attendance.tracker.entity.StudyClass;
-import ua.yezhyck.attendance.tracker.entity.User;
 import ua.yezhyck.attendance.tracker.exception.NoSuchUserException;
 import ua.yezhyck.attendance.tracker.mapper.UserMapper;
 import ua.yezhyck.attendance.tracker.repository.StudentRepository;
@@ -15,8 +13,6 @@ import ua.yezhyck.attendance.tracker.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
