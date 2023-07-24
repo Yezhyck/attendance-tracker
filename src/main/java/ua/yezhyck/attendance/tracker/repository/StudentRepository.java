@@ -11,6 +11,16 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    @Query("SELECT s FROM Student s WHERE s IN (SELECT s2 FROM Student s2 JOIN s2.studyClasses scs GROUP BY s2 HAVING COUNT(scs) = 1) AND s IN :students")
-    List<Student> findWithOneStudyClass(@Param("students") List<Student> students);
+    @Query(value = "SELECT s1.id, first_name, last_name " +
+            "FROM students s1 " +
+            "         JOIN study_classes_students scs1 ON s1.id = scs1.id_student " +
+            "         JOIN study_classes sc1 ON sc1.id = scs1.id_study_class " +
+            "WHERE s1 IN (SELECT s2 " +
+            "             FROM study_classes sc2 " +
+            "                      JOIN study_classes_students scs2 on sc2.id = scs2.id_study_class " +
+            "                      JOIN students s2 on s2.id = scs2.id_student " +
+            "             WHERE sc2.id = :studyClassId) " +
+            "GROUP BY s1.id " +
+            "HAVING COUNT(sc1) = 1", nativeQuery = true)
+    List<Student> findWithOneStudyClassByStudyClassId(@Param("studyClassId") Long studyClassId);
 }
