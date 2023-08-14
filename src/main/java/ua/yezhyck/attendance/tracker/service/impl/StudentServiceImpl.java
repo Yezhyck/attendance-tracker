@@ -2,9 +2,9 @@ package ua.yezhyck.attendance.tracker.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.yezhyck.attendance.tracker.dto.StudentDto;
+import ua.yezhyck.attendance.tracker.model.dto.StudentDto;
 import ua.yezhyck.attendance.tracker.exception.NoSuchStudentException;
-import ua.yezhyck.attendance.tracker.mapper.StudentMapper;
+import ua.yezhyck.attendance.tracker.model.mapper.StudentMapper;
 import ua.yezhyck.attendance.tracker.repository.StudentRepository;
 import ua.yezhyck.attendance.tracker.service.StudentService;
 

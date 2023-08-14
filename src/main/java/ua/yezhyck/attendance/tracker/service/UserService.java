@@ -1,7 +1,7 @@
 package ua.yezhyck.attendance.tracker.service;
 
-import ua.yezhyck.attendance.tracker.dto.UserDto;
-import ua.yezhyck.attendance.tracker.dto.editable.UserEditableDto;
+import ua.yezhyck.attendance.tracker.model.dto.UserDto;
+import ua.yezhyck.attendance.tracker.model.dto.editable.UserEditableDto;
 import ua.yezhyck.attendance.tracker.exception.NoSuchUserException;
 
 import java.util.List;

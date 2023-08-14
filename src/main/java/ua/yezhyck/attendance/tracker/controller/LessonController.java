@@ -4,8 +4,8 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.yezhyck.attendance.tracker.dto.LessonDto;
-import ua.yezhyck.attendance.tracker.dto.editable.LessonEditableDto;
+import ua.yezhyck.attendance.tracker.model.dto.LessonDto;
+import ua.yezhyck.attendance.tracker.model.dto.editable.LessonEditableDto;
 import ua.yezhyck.attendance.tracker.service.impl.LessonServiceImpl;
 
 import java.util.List;

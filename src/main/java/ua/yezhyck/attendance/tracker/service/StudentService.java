@@ -1,6 +1,6 @@
 package ua.yezhyck.attendance.tracker.service;
 
-import ua.yezhyck.attendance.tracker.dto.StudentDto;
+import ua.yezhyck.attendance.tracker.model.dto.StudentDto;
 import ua.yezhyck.attendance.tracker.exception.NoSuchStudentException;
 
 import java.util.List;
