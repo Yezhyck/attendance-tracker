@@ -1,6 +1,6 @@
 package ua.yezhyck.attendance.tracker.service;
 
-import ua.yezhyck.attendance.tracker.model.dto.AttendanceStatusDto;
+import ua.yezhyck.attendance.tracker.domain.dto.AttendanceStatusDto;
 import ua.yezhyck.attendance.tracker.exception.NoSuchAttendanceStatusException;
 
 import java.util.List;

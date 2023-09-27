@@ -2,13 +2,13 @@ package ua.yezhyck.attendance.tracker.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.yezhyck.attendance.tracker.model.dto.LessonDto;
-import ua.yezhyck.attendance.tracker.model.dto.editable.LessonEditableDto;
-import ua.yezhyck.attendance.tracker.model.entity.Lesson;
-import ua.yezhyck.attendance.tracker.model.entity.StudyClass;
+import ua.yezhyck.attendance.tracker.domain.dto.LessonDto;
+import ua.yezhyck.attendance.tracker.domain.dto.editable.LessonEditableDto;
+import ua.yezhyck.attendance.tracker.domain.entity.Lesson;
+import ua.yezhyck.attendance.tracker.domain.entity.StudyClass;
 import ua.yezhyck.attendance.tracker.exception.NoSuchLessonException;
 import ua.yezhyck.attendance.tracker.exception.NoSuchStudyClassException;
-import ua.yezhyck.attendance.tracker.model.mapper.LessonMapper;
+import ua.yezhyck.attendance.tracker.domain.mapper.LessonMapper;
 import ua.yezhyck.attendance.tracker.repository.LessonRepository;
 import ua.yezhyck.attendance.tracker.repository.StudyClassRepository;
 import ua.yezhyck.attendance.tracker.service.LessonService;

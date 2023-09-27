@@ -4,8 +4,8 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.yezhyck.attendance.tracker.model.dto.UserDto;
-import ua.yezhyck.attendance.tracker.model.dto.editable.UserEditableDto;
+import ua.yezhyck.attendance.tracker.domain.dto.UserDto;
+import ua.yezhyck.attendance.tracker.domain.dto.editable.UserEditableDto;
 import ua.yezhyck.attendance.tracker.service.impl.UserServiceImpl;
 
 import java.util.List;

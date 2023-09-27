@@ -1,7 +1,7 @@
 package ua.yezhyck.attendance.tracker.service;
 
-import ua.yezhyck.attendance.tracker.model.dto.LessonDto;
-import ua.yezhyck.attendance.tracker.model.dto.editable.LessonEditableDto;
+import ua.yezhyck.attendance.tracker.domain.dto.LessonDto;
+import ua.yezhyck.attendance.tracker.domain.dto.editable.LessonEditableDto;
 import ua.yezhyck.attendance.tracker.exception.NoSuchLessonException;
 import ua.yezhyck.attendance.tracker.exception.NoSuchStudyClassException;
 

@@ -1,6 +1,6 @@
 package ua.yezhyck.attendance.tracker.service;
 
-import ua.yezhyck.attendance.tracker.model.dto.AbsenceReasonDto;
+import ua.yezhyck.attendance.tracker.domain.dto.AbsenceReasonDto;
 import ua.yezhyck.attendance.tracker.exception.NoSuchAbsenceReasonException;
 
 import java.util.List;
